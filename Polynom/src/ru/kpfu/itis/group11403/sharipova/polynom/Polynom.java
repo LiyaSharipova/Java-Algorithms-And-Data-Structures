@@ -15,10 +15,15 @@ public class Polynom {
 	public int getDegreeOfString(String textPol){
 		String degreeStr="";
 		int degree=0;
-		boolean f=false;
+		boolean f=true;
 		int i=0;
-		
-		if ((textPol.length()==1)||(textPol.equals("-1"))){
+		for(; i<textPol.length(); i++){
+			if (textPol.charAt(i)=='x'){
+				f=false;
+				break;
+			}
+		}
+		if (f){
 			degree=0;
 		}
 		else{
@@ -59,7 +64,7 @@ public class Polynom {
 			// степень=1, но это слагаемое не последнее
 			if ((j!=textPol.length()-1)&&(textPol.charAt(j)=='x')&&(textPol.charAt(j+1)!='^')){
 				degree=1;
-				j++;
+				
 			}
 			else{
 				// степень=1, но это слагаемое последнее
@@ -79,7 +84,7 @@ public class Polynom {
 			}
 			//если строка степени пустая, значит степень=1 или 0 и переводить строку в число не нужно
 			if (degreeStr.length()!=0){ degree=Integer.parseInt(degreeStr);}
-			//если строка коэф-а пустая, коэф-т=1
+			// коэф!=1 и -1
 			if ((coefStr.length()!=0)&&(!(coefStr.equals("-")))){
 				if (coefStr.charAt(0)=='-'){
 					coef[degree]=-Double.parseDouble(coefStr.substring(1));
@@ -87,6 +92,7 @@ public class Polynom {
 				else		
 					coef[degree]=Double.parseDouble(coefStr);
 			}
+			// коэф-т=1 или -1
 			else{
 				if (coefStr.equals("-")){
 					coef[degree]=-1;
@@ -122,7 +128,11 @@ public class Polynom {
 			}
 		}
 		//убираем '+' в начале
-		return stringPolynom.substring(1);
+		if (stringPolynom.charAt(0)=='+'){
+			return stringPolynom.substring(1);
+		}
+		else 
+			return stringPolynom;
 	}
 
     private int getDegree( Polynom secondPol){   	
@@ -172,7 +182,7 @@ public class Polynom {
 	}
 	public void minus(Polynom secondPol){
 	
-		secondPol.multiply(new Polynom("-1"));
+		secondPol.multiply(new Polynom("-1.0"));
 		this.add(secondPol);
 	}
 	public void multiply(Polynom secondPol ){
@@ -190,7 +200,7 @@ public class Polynom {
 	
 	public static void main(String[] args) {
 		double[] koef1={1, 1, 1};
-		double[] koef2={1,78};
+		double[] koef2={-1,-78};
 		
 		
 		
@@ -218,10 +228,8 @@ public class Polynom {
 		System.out.println();
 		
 		System.out.println("test of method toString");
-		Polynom p =new Polynom(new double[]{1,-1,1});
-		p.toString();
-		new Polynom("x^2-x+1");
-		System.out.println(new Polynom(new Polynom(new double[]{1,-1,1}).toString()));		
+
+                System.out.println(new Polynom(new Polynom(new double[] {-8.7, -1, 0, -3}).toString()));		
 	}
 
 }
