@@ -19,16 +19,22 @@ public class FastMultiply {
 	//правую получаем побитовой конъюнкцией данного числа и числа, 
     //равного 2^(n/2)-1, чтобы обнулить левую часть
 	public static long getRightPart(long x){
-		long mask=(long)Math.pow(2, (getCapasity(x)/2))-1;
+        long mask=1;
+        for ( int i=0; i<getCapasity(x)/2-1; i++){
+        	mask<<=1;
+        	mask|=1;
+        }
 		return x&mask;
+		
 	}
 
 
-	public static long multiply(long x, long y){
+	public static long mult(long x, long y, int n){
+//        n=getCapasity(x);
 		long s=getSign(x,y);
 		x=Math.abs(x);
 		y=Math.abs(y);
-		int n=getCapasity(x);
+//		n=getCapasity(x);
 		if (n==1){
 			if((x==1)&&(y==1)){
 				return s;
@@ -40,18 +46,18 @@ public class FastMultiply {
 			long B=getRightPart(x);
 			long C=getLeftPart(y);
 			long D=getRightPart(y);
-			long m1=A*C;
-			long m2=(A-B)*(D-C);
-			long m3=B*D;
-			return (s*(m1*(long)Math.pow(2, n)+(m1+m2+m3)*(long)Math.pow(2, n/2)+m3));
+			long m1=mult(A,C,n/2);
+			long m2=mult((A-B),(D-C), n/2);
+			long m3=mult(B,D,n/2);
+			
+			return s*((m1<<n)+((m1+m2+m3)<<n/2)+m3);
+			
 		}
 	}
     
 	public static void main(String[] args) {
-	  
-	   
-//	   String s= Integer.toBinaryString(a);
-	   System.out.println(multiply(15, 10));
+		   System.out.println(mult(15, 10, 4));
+		  
 
 	}
 
