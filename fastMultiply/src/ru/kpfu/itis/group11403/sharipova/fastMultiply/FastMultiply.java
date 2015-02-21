@@ -30,11 +30,9 @@ public class FastMultiply {
 
 
 	public static long mult(long x, long y, int n){
-//        n=getCapasity(x);
 		long s=getSign(x,y);
 		x=Math.abs(x);
 		y=Math.abs(y);
-//		n=getCapasity(x);
 		if (n==1){
 			if((x==1)&&(y==1)){
 				return s;
