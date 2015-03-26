@@ -1,0 +1,71 @@
+package  ru.kpfu.itis.group11403.sharipova.stack;
+import java.util.Iterator;
+
+
+
+public class LinkedStack<T> implements MyStack {
+    private Item first;
+    
+    private void setFirst(Item first) {
+		this.first = first;
+	}
+    
+	private class Item {
+		private T obj;
+
+		private Item next;
+
+		public Item getNext() {
+			return next;
+		}
+
+		public void setNext(Item next) {
+			this.next = next;
+		}
+
+		public T getObj() {
+			return obj;
+		}
+
+		public void setObj(T obj) {
+			this.obj = obj;
+		}		
+	}
+	@Override
+	public Iterator iterator() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public T pop() {
+		T t=first.getObj();
+		setFirst(first.getNext());
+		return t;
+	}
+
+	@Override
+	public Object push(Object item) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Object peek() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public int size() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public boolean isEmpty() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+}
