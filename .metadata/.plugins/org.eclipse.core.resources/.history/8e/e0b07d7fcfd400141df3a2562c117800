@@ -1,0 +1,18 @@
+package ru.kpfu.itis.group11403.sharipova.queue;
+
+import java.util.ArrayList;
+import java.util.Random;
+
+public class Faculty {
+	private Student [] students;
+
+	public Faculty(Student[] students) {
+		super();
+		this.students = students;
+	}
+	public Student [] RandomLuckyStudents(){
+		Random rnd = new Random();
+		int random=rnd.nextInt(students.length-1)+1;
+		List<Student> someStudents= new ArrayList<Student>();
+	}
+}

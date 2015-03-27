@@ -11,7 +11,15 @@ public class Queue<T> {
 		}
 		elements= new Object[size];
 	}
-   
+    public int size() {
+		return amount;
+	}
+    public boolean  isEmpty() {
+		if (amount==0) 
+			return true;
+		else 
+			return false;
+	}
     public boolean offer(T t){
     	if (amount+1>elements.length){
     		return false;
@@ -36,13 +44,8 @@ public class Queue<T> {
 		amount--;
 		return (T)first;
 	}
-	public static void main(String[] args) {
-		Queue<Integer> q= new Queue<Integer>(3);
-		q.offer(0);
-		q.offer(1);
-		q.offer(2);
-		q.poll();
-		q.offer(3);
-		q.offer(4);
+	public T peek() {
+		return (T)elements[start];
 	}
+
 }
