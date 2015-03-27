@@ -92,7 +92,7 @@ public class LinkedStack<T> implements MyStack<T> {
 
 	@Override
 	public T peek() {
-		return (T)first.getObj();
+		return (T)getFirst();
 	}
 
 
@@ -108,5 +108,15 @@ public class LinkedStack<T> implements MyStack<T> {
 		}
 		return false;
 	}
-
+	public static void main(String[] args) {
+		LinkedStack<Integer> st= new LinkedStack<Integer>();
+		st.push(0);
+		st.push(1);
+		st.push(2);
+		st.push(3);
+		Iterator<Integer> it=st.iterator();
+		while(it.hasNext()){
+			System.out.println(it.next());
+		}
+	}
 }

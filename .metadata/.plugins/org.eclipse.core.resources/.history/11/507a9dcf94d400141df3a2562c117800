@@ -1,0 +1,10 @@
+package ru.kpfu.itis.group11403.sharipova.stack;
+
+public class BracketsCheck {
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+
+	}
+
+}
