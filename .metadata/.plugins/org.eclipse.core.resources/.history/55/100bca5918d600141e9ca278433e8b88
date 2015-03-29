@@ -1,0 +1,307 @@
+package ru.kpfu.itis.group11403.safin.ArrayHashMap;
+
+import java.util.*;
+
+//get(K)
+//put(K,V)
+//remove(K)
+//size()
+//isEmpty()
+//hash(K)
+//есть массив внутри связный список
+//вычисляем hash % array.size == index в массиве
+public class ArrayHashMap<K,V> implements Map<K,V> {
+
+    private int size;
+
+    private Object[] elems;
+
+    public ArrayHashMap(int capacity) {
+        elems = new Object[capacity];
+    }
+
+    @Override
+    public int size() {
+
+        return size;
+    }
+
+    public int getIndex(Object key) {
+        if (key==null){
+        	return 0;
+        }
+        return Math.abs(key.hashCode() % elems.length);
+    }
+
+    @Override
+    public boolean isEmpty() {
+
+        return size == 0;
+    }
+
+    @Override
+    public boolean containsKey(Object key) {
+        int index = getIndex(key);
+        boolean f = false;
+        Node e = (Node)elems[index];
+        if (e == null){return false;}
+        if (e.key.equals(key)){
+            return true;
+        }
+        for (e = e.getNext();e != null; e = e.getNext()){
+            if (e.key.equals(key)){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    @Override
+    public boolean containsValue(Object value) {
+        for (int i = 0; i < size; i++){
+            if (containsValueAtNode(i, (V) value)){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private boolean containsValueAtNode(int index, V value){
+        Node e = (Node) elems[index];
+        if (e == null){
+            return false;
+        }
+        if (e.getValue().equals(value)){
+            return true;
+        }
+        for (e = e.getNext(); e != null; e =  e.getNext()){
+            if (e.getValue().equals(value)){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    @Override
+    public V get(Object key) {
+        if (!containsKey(key)){
+            throw new IllegalArgumentException("key is not exist");
+        }
+        int index = getIndex(key);
+        Node e = (Node) elems[index];
+        if (e == null){
+            return null;
+        }
+        while (e != null && !e.key.equals(key)){
+            e = e.getNext();
+        }
+        if (e == null){return null;}
+        return e.getValue();
+    }
+
+
+    private boolean containsKeyAtNode(int index, K key){
+        Node e = (Node) elems[index];
+
+        if (e == null){
+            return false;
+        }
+
+        if (e.key.equals(key)){
+            return true;
+        }
+
+        for (e = e.getNext(); e != null; e =  e.getNext()){
+            if (e.getKey().equals(key)){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    @Override
+    public V put(K key, V value) {
+
+//        if (key == null){
+//            throw new NullPointerException("key is null, wrong operation put");
+//        }
+
+        int index = getIndex(key);
+
+        if (elems[index] == null){
+            elems[index] = new Node(key,value);
+            size++;
+            return ((Node) elems[index]).value;
+        }else {
+            boolean containsKeyAtNode = containsKeyAtNode(index,key);
+
+            Node e = (Node) elems[index];
+
+            if (e.key.equals(key)){
+                e.value = value;
+                return value;
+            }
+
+            while (e.getNext() != null){
+                if (e.key.equals(key)){
+                    e.value = value;
+                    return value;
+                }
+                e = e.getNext();
+            }
+            e.setNext(new Node(key, value));
+            size++;
+            return e.getNext().getValue();
+        }
+    }
+
+    @Override
+    public V remove(Object key) {
+        if (!containsKey(key)){
+            return null;
+        }
+        int index = getIndex(key);
+
+        V forRemove = get(key);
+        Node e = (Node) elems[index];
+        if (e.key.equals(key)){
+            elems[index] = e.getNext();
+            size--;
+        }
+        Node last = e;
+        for(e = e.getNext();e != null; e = e.getNext()){
+            if (e.key.equals(key)){
+                last.setNext(e.getNext());
+                size--;
+            }
+            last = e;
+        }
+        return forRemove;
+    }
+
+    @Override
+    public void putAll(Map<? extends K, ? extends V> m) {
+        for (Entry<? extends K, ? extends V> entry : m.entrySet()) {
+            put(entry.getKey(), entry.getValue());
+        }
+    }
+
+    @Override
+    public void clear() {
+        for (int i = 0; i <elems.length ; i++) {
+            elems[i] = null;
+        }
+        size = 0;
+    }
+
+    @Override
+    public Set<K> keySet() {
+
+        Set<K> keySet = new HashSet<>();
+
+        for (int i = 0; i < elems.length; i++) {
+
+            for(Node node = (Node) elems[i]; node != null; node = node.next) {
+                keySet.add(node.key);
+            }
+
+        }
+
+        return keySet;
+    }
+
+    @Override
+    public Collection<V> values() {
+
+        List<V> list = new ArrayList<>();
+        for (int i = 0; i < elems.length; i++) {
+
+            for(Node node = (Node) elems[i]; node != null; node = node.next) {
+                list.add(node.value);
+            }
+
+        }
+
+        return list;
+    }
+
+    @Override
+    public Set<Entry<K, V>> entrySet() {
+
+        Set<Entry<K,V>> entrySet = new HashSet<>();
+
+        for (int i = 0; i < elems.length; i++) {
+
+            for(Node node = (Node) elems[i]; node != null; node = node.next) {
+                entrySet.add(new NodeEntry(node));
+            }
+
+        }
+
+        return entrySet;
+
+    }
+
+
+    private class NodeEntry implements Entry<K,V>{
+
+        private Node node;
+
+        public NodeEntry(Node node) {
+            this.node = node;
+        }
+
+        @Override
+        public K getKey() {
+            return node.getKey();
+        }
+
+        @Override
+        public V getValue() {
+            return node.getValue();
+        }
+
+        @Override
+        public V setValue(V value) {
+            V temp = node.value;
+            node.value = value;
+            return temp;
+        }
+    }
+
+
+
+    private class Node{
+
+        private final K key;
+
+        private  Node next;
+
+        private  V value;
+
+        public void setNext(Node next) {
+            this.next = next;
+        }
+
+        private Node(K key, V value) {
+            if (key == null || value == null){
+                throw new NullPointerException("key or value is null");
+            }
+            this.key = key;
+            this.value = value;
+        }
+
+        public Node getNext() {
+            return next;
+        }
+
+        public V getValue() {
+            return value;
+        }
+
+        public K getKey() {
+
+            return key;
+        }
+    }
+}

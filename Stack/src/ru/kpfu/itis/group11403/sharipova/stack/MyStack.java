@@ -1,4 +1,4 @@
-package  ru.kpfu.itis.group11403.sharipova.stack;
+package ru.kpfu.itis.group11403.sharipova.stack;
 public interface MyStack<T> extends Iterable<T> {
     public T pop();
     public T push(T item);

@@ -1,0 +1,19 @@
+import java.io.DataOutputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+
+
+public class Input {
+//	private OutputStream outputStream;
+	public static void main(String[] args) {
+	   try {
+		DataOutputStream outputStream=new DataOutputStream(new FileOutputStream("in.txt"));
+		outputStream.writeInt(10);
+	} catch (FileNotFoundException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}
+	   
+	}
+
+}

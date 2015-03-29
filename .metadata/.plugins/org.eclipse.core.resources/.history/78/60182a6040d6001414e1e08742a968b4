@@ -1,0 +1,15 @@
+package ru.kpfu.itis.group11403.safin.ArrayHashMap;
+
+public class Main {
+
+	public static void main(String[] args) {
+       ArrayHashMap< String, Integer> map= new ArrayHashMap< String, Integer>(2);
+       map.put("one", 1);
+       map.put("two", 2);
+       map.put("two", 22);
+       map.put(null, 3);
+       map.put("four", 4);
+     System.out.println(map.containsKey(null));  
+	}
+
+}
