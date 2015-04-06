@@ -1,0 +1,30 @@
+package ru.kpfu.itis.group403.yuskevich.fileManager.classes;
+
+import ru.kpfu.itis.group403.yuskevich.fileManager.commands.*;
+import ru.kpfu.itis.group403.yuskevich.fileManager.interfaces.Command;
+import ru.kpfu.itis.group403.yuskevich.fileManager.interfaces.DirChanger;
+
+
+public class CommandFactory {
+    Command[] allCommands;
+
+    public CommandFactory(){
+        allCommands = new Command[3];
+        allCommands[0] = new Exit();
+        allCommands[1] = new Open();
+        allCommands[2] = new Back();
+    }
+    public Command create(String commandString, DirChanger dirChanger){
+        for(Command command: allCommands){
+            if(commandString.split(" ")[0].equals(command.keyWord()))
+                if(command.check(commandString, dirChanger))
+                    return command;
+
+        }
+
+        return null;//"исключениееее"(C)Лия
+    }
+
+}
+
+

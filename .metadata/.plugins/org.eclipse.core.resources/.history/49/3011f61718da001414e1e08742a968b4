@@ -1,0 +1,33 @@
+package classes;
+
+import java.nio.file.NoSuchFileException;
+
+import commands.*;
+import interfaces.Command;
+import interfaces.DirChanger;
+
+
+public class CommandFactory {
+    private Command[] allCommands;
+
+    public CommandFactory(){
+        allCommands = new Command[3];
+        allCommands[0] = new Exit();
+        allCommands[1] = new Open();
+        allCommands[2] = new Back();
+    }
+    public Command create(String commandString, DirChanger dirChanger) throws NoSuchFileException, NoSuchCommandException{
+    	commandString=new String commandString.trim();
+        for(Command command: allCommands){
+            if(commandString.split(" ")[0].equals(command.keyWord()))
+                if(command.check(commandString, dirChanger))
+                    return command;
+
+        }
+        throw new NoSuchCommandException("wrong command: "+  commandString );
+        
+    }
+
+}
+
+

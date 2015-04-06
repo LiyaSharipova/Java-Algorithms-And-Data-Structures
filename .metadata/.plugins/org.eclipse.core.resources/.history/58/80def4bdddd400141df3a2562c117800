@@ -1,6 +1,0 @@
-import java.util.Map;
-
-
-public interface MyMap<V, K> extends Map<K, V> {
-
-}

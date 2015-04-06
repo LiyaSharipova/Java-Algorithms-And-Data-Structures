@@ -1,0 +1,14 @@
+package interfaces;
+
+import java.io.File;
+
+/**
+ * Created by Ian on 31.03.2015.
+ */
+public interface DirChanger {
+
+    public File getDir(); //возвращает текущую директорию
+
+    public void setDir(File newDir); //меняет текущую директорию
+
+}

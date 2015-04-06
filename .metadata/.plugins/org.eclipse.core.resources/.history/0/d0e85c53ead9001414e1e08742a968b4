@@ -1,0 +1,17 @@
+package ru.kpfu.itis.group403.yuskevich.fileManager.interfaces;
+
+import java.io.File;
+
+/**
+ * Created by Ian on 30.03.2015.
+ */
+public interface Command {
+
+    String keyWord();// возвращает ключивое слово типа "/copy"
+
+    boolean check(String command, DirChanger dir);//проверяет корректность строки
+    //проверяет пути до файла, существует ли такой файл
+
+    void execute(String command, DirChanger dirChanger);//выполняет
+
+}

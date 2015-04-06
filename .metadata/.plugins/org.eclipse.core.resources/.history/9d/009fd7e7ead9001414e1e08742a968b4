@@ -1,0 +1,36 @@
+package ru.kpfu.itis.group403.yuskevich.fileManager.commands;
+
+import ru.kpfu.itis.group403.yuskevich.fileManager.classes.Helper;
+import ru.kpfu.itis.group403.yuskevich.fileManager.interfaces.Command;
+import ru.kpfu.itis.group403.yuskevich.fileManager.interfaces.DirChanger;
+
+import java.io.File;
+
+/**
+ * Created by Ian on 01.04.2015.
+ */
+public class Open implements Command{
+
+    @Override
+    public String keyWord() {
+        return "/open";
+    }
+
+    @Override
+    public boolean check(String command, DirChanger dirChanger) {
+        Helper help = new Helper();
+        String[] words = command.split(" ");
+        if((words.length==2)&&(help.correctPath(words[1], dirChanger.getDir()).exists()))
+                return true;
+        return false;
+    }
+
+    @Override
+    public void execute(String command, DirChanger dirChanger) {
+        Helper help = new Helper();
+        File file = help.correctPath(command.split(" ")[1], dirChanger.getDir());
+        if(file.isDirectory())
+            dirChanger.setDir(file);
+
+    }
+}
