@@ -2,7 +2,6 @@ package ru.kpfu.itis.group403.yuskevich.fileManager.commands;
 
 import java.io.File;
 
-import ru.kpfu.itis.group403.yuskevich.fileManager.classes.Helper;
 import ru.kpfu.itis.group403.yuskevich.fileManager.interfaces.Command;
 import ru.kpfu.itis.group403.yuskevich.fileManager.interfaces.DirChanger;
 
@@ -17,7 +16,12 @@ public class Back implements Command {
 
 	@Override
 	public boolean check(String command, DirChanger dir) throws IllegalArgumentException {
-		return Helper.checkLength(1, command);
+		if (command.split(" ").length==1){
+			return true;
+		}
+		String[] words = command.split(" ");
+		String options=command.substring(words[0].length());
+		throw new IllegalArgumentException("wrong options: "+ options) ;
 	}
 
 	@Override

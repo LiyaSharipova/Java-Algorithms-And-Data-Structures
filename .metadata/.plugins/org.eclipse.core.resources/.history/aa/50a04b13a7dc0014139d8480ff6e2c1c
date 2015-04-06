@@ -18,21 +18,20 @@ public class Redactor  {
 		try(InputStream in=new FileInputStream(from);
 				BufferedReader r=new BufferedReader(new InputStreamReader(in));
 				OutputStream out=new FileOutputStream(to);
-				Writer w=new BufferedWriter(new OutputStreamWriter(out, "UTF-8"));){
+				Writer w=new BufferedWriter(new OutputStreamWriter(out));){
 			String prLine=r.readLine();
 			String curLine;
 			while((curLine=r.readLine())!=null){
-				if(curLine.trim().equals("{")){
-					w.write(prLine+"{\r\n");
+				if(curLine.trim()=="{"){
+					w.write(prLine+"{\n");
 					prLine=r.readLine();
 				}
 				else{
-					w.write(prLine+"\r\n");
+					w.write(prLine+"\n");
 					prLine=curLine;
 				
 				}
 			}
-			w.write(prLine);
 		}
 		catch(IOException e){
 			e.printStackTrace();

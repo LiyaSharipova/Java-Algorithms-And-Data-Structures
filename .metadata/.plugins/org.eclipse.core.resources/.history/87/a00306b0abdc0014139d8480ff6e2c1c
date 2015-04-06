@@ -32,7 +32,6 @@ public class Redactor  {
 				
 				}
 			}
-			w.write(prLine);
 		}
 		catch(IOException e){
 			e.printStackTrace();
