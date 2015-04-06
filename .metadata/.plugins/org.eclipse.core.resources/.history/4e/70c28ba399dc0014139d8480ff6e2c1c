@@ -68,6 +68,10 @@ public class FileManager implements DirChanger {
 	//    //ищет файлы по тэгу в указанной директории, f отвечает за вывод папок, должен ругаться на не существующую директорию
 	//    //можно добавить аналог show in folder по индексу после поиска
 	//
+	//    //возвращает пользователя в директорию выше(не назад, а именно на уровень выше)
+	//    void back(){
+	//
+	//    }
 	//
 	//    //рпечатает дерево директорий
 	//    void print(int deep){
@@ -109,7 +113,23 @@ public class FileManager implements DirChanger {
 	//
 	//    }
 	//
-
+	//    //меняет кодировку на выбранную, тоже ругается на несуществующую команду
+	//    void changeEncoding(String encode){//??????
+	//
+	//    }
+	//
+	//    //просто выводит перечень методов и моответствующии команды с кратким описанием
+	//    void help(){
+	//        System.out.println("/search 'folder name of path to folder' 'tag' ('-folder') - search file or folder if directory");
+	//        System.out.println("/copy 'filename of path to file' 'directory for copy' - create copy of file");
+	//        System.out.println("/mkdir 'name' - create directory in current directory");
+	//        System.out.println("/mkfile 'name' - create file in current directory");
+	//        System.out.println("/remove 'filename of path to file' - delete file or folder");
+	//        System.out.println("/open 'filename of path to file' - open txt file or directory");
+	//        System.out.println("/rename 'filename of path to file' 'new name' - rename file or folder");
+	//        System.out.println("/encode ?????????");
+	//        System.out.println("/exit - stop file manager");
+	//    }
 
 
 }
