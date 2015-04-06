@@ -29,8 +29,10 @@ public class ChangeEncoding implements Command {
 	}
 
 	@Override
-	public boolean check(String command, DirChanger dir){
-	    return Helper.checkLength(3, command);
+	public boolean check(String command, DirChanger dir)
+			throws NoSuchFileException, IllegalArgumentException {
+		// TODO Auto-generated method stub
+		return true;
 	}
 
 	
@@ -53,8 +55,10 @@ public class ChangeEncoding implements Command {
 		catch(IOException e){
 			throw e;
 		}
-		file.delete();
-		temp.renameTo(Helper.correctPath(words[1], dirChanger.getDir()));
+		boolean g=file.delete();
+		boolean bol=temp.renameTo(Helper.correctPath(words[1], dirChanger.getDir()));
+
+
 	}
 
 }

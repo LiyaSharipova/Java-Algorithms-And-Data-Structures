@@ -53,8 +53,10 @@ public class ChangeEncoding implements Command {
 		catch(IOException e){
 			throw e;
 		}
-		file.delete();
-		temp.renameTo(Helper.correctPath(words[1], dirChanger.getDir()));
+		boolean g=file.delete();
+		boolean bol=temp.renameTo(Helper.correctPath(words[1], dirChanger.getDir()));
+
+
 	}
 
 }

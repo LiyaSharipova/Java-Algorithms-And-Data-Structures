@@ -46,11 +46,8 @@ public class Remove implements Command {
 	}
 
 	@Override
-	public void execute(String command, DirChanger dirChanger) throws NoSuchFileException {
+	public void execute(String command, DirChanger dirChanger) {
 		File file = Helper.correctPath(command.split(" ")[1], dirChanger.getDir());
-		if (!file.exists()){
-        	throw new NoSuchFileException(" no such file: "+ command.split(" ")[1]);
-        }
 		deleteDirectory(file);
 	}
 

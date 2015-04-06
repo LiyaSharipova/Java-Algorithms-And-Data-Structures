@@ -36,7 +36,7 @@ public class Helper {
 			subLength+=words[i].length()+1;
 		}
     	String options=command.substring(subLength);// лишние опции
-            throw new IllegalArgumentException("Extra option(s): "+ options) ;// выводит только лишние слова
+            throw new IllegalArgumentException("wrong option(s): "+ options) ;// выводит только лишние слова
     	
 	}
 

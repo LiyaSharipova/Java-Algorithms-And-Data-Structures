@@ -10,7 +10,9 @@ import ru.kpfu.itis.group403.yuskevich.fileManager.classes.NoSuchCommandExceptio
  * Created by Ian on 30.03.2015.
  */
 public interface Command {
+
     String keyWord();// возвращает ключивое слово типа "/copy"
+
     boolean check(String command, DirChanger dir) throws NoSuchFileException,IllegalArgumentException;//проверяет корректность строки
     //проверяет пути до файла, существует ли такой файл
 
