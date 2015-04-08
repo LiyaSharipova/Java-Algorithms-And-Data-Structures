@@ -44,8 +44,7 @@ public class ChangeEncoding implements Command {
 	@Override
 	public void execute() throws IOException {
 		File file = Helper.correctPath(commandWords[0], dirChanger.getDir());
-		File dir=new File(file.getPath().substring(0, file.getPath().lastIndexOf(File.separatorChar)));
-		File temp = File.createTempFile("temp", ".txt", dir);
+		File temp = File.createTempFile("temp", ".txt", dirChanger.getDir());
         String from= commandWords[1];
         String to= commandWords[2];
 		char[] buffer=new char[4096];

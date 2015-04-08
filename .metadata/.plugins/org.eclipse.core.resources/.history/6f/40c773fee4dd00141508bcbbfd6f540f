@@ -69,12 +69,32 @@ public class Input {
 				System.out.println(line);
 			}
 		}
-		File file= new File("C:/./dir/in.txt");
-		System.out.println(file.getCanonicalPath());
+		InputStream in;
+		OutputStream out;
+	        in=new FileInputStream("encode.txt");
+	        Reader r=new BufferedReader(new InputStreamReader(in));
+	    
+	        out=new FileOutputStream("encode1.txt");
 	    
 //	   
 	    
-	   
+	    Writer w=new BufferedWriter(new OutputStreamWriter(out, "Unicode"));
+
+	    // Copy characters from input to output.  The InputStreamReader
+	    // converts from the input encoding to Unicode,, and the OutputStreamWriter
+	    // converts from Unicode to the output encoding.  Characters that cannot be
+	    // represented in the output encoding are output as '?'
+	    char[] buffer=new char[4096];
+	    int len;
+	    while((len=r.read(buffer)) != -1)
+	        w.write(buffer, 0, len);
+	    r.close();
+	    w.flush();
+	    w.close();
+	    new File("encode.txt").delete();
+//	    File f= new File("encode1.txt");
+	    boolean bol=new File("encode1.txt").renameTo(new File("encode.txt"));
+	    File newFile= new File("new.txt");
 
 	}
 

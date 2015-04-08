@@ -71,7 +71,7 @@ public class Open implements Command{
         if(file.isDirectory())
             dirChanger.setDir(file);
         else{
-        	printFail(file);
+        	
         }
     }
 

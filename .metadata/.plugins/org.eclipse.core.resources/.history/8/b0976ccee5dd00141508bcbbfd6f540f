@@ -69,8 +69,8 @@ public class Input {
 				System.out.println(line);
 			}
 		}
-		File file= new File("C:/./dir/in.txt");
-		System.out.println(file.getCanonicalPath());
+		File file= new File("dir/in.txt");
+		System.out.println(file.getAbsolutePath());
 	    
 //	   
 	    
