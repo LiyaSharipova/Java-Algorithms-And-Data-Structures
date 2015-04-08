@@ -19,7 +19,7 @@ public class Redactor  {
 		try(InputStream in=new FileInputStream(from);
 				BufferedReader r=new BufferedReader(new InputStreamReader(in));
 				OutputStream out=new FileOutputStream(to);
-				Writer w=new BufferedWriter(new OutputStreamWriter(out, "UTF-8"));){
+				Writer w=new BufferedWriter(new OutputStreamWriter(out));){
 			String prLine=r.readLine();
 			String curLine;
 			while((curLine=r.readLine())!=null){

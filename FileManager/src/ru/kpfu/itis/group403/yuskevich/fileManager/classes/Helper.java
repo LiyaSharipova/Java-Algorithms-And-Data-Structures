@@ -26,16 +26,14 @@ public class Helper {
         else
             return new File(dir.getPath()+"/"+path);
     }
-    public static boolean checkLength(int length, String command) throws IllegalArgumentException {
-    	String[] words = command.split(" ");
-    	if(words.length==length){
+    public static boolean checkLength(int length, String[] commandWords) throws IllegalArgumentException {
+    	if(commandWords.length==length){
     		return true;
     	}
-    	int subLength=0;
-    	for (int i = 0; i < length; i++) {
-			subLength+=words[i].length()+1;
+    	String options="";
+    	for (int i = length; i < commandWords.length; i++) {
+			options+=commandWords[i]+" ";
 		}
-    	String options=command.substring(subLength);// лишние опции
             throw new IllegalArgumentException("Extra option(s): "+ options) ;// выводит только лишние слова
     	
 	}

@@ -1,5 +1,6 @@
 package ru.kpfu.itis.group403.yuskevich.fileManager.commands;
 
+import ru.kpfu.itis.group403.yuskevich.fileManager.classes.Helper;
 import ru.kpfu.itis.group403.yuskevich.fileManager.interfaces.Command;
 import ru.kpfu.itis.group403.yuskevich.fileManager.interfaces.DirChanger;
 
@@ -12,19 +13,20 @@ public class Start implements Command {
 	}
 
 	@Override
-	public boolean check(String command, DirChanger dir) throws IllegalArgumentException {
-		if (command.split(" ").length==1){
-			return true;
-		}
-		String[] words = command.split(" ");
-		String options=command.substring(words[0].length());// лишние опции
-		throw new IllegalArgumentException("wrong options: "+ options) ;
+	public boolean check() throws IllegalArgumentException {
+		return true;
 	}
 
 	@Override
-	public void execute(String command, DirChanger dirChanger) {
+	public void execute() {
 		// TODO Auto-generated method stub
 
+	}
+
+	@Override
+	public void setCommandString(String command) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

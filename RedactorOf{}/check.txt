@@ -1,7 +1,9 @@
-﻿if (<cond>)
+﻿#include <stdio.h>
+ 
+int
+main (void)
 {
- if()
- {
-  <body>
- }
+  printf ("Hello, World!\n");
+  getchar ();
+  return 0;
 }

@@ -1,0 +1,43 @@
+package ru.kpfu.itis.group403.yuskevich.fileManager.commands;
+
+import java.io.File;
+
+import ru.kpfu.itis.group403.yuskevich.fileManager.classes.Helper;
+import ru.kpfu.itis.group403.yuskevich.fileManager.interfaces.Command;
+import ru.kpfu.itis.group403.yuskevich.fileManager.interfaces.DirChanger;
+
+/**
+ * Created by Ian on 01.04.2015.
+ */
+public class Back implements Command {
+	private DirChanger dirChanger;
+
+	public Back(DirChanger dirChanger) {
+		super();
+		this.dirChanger = dirChanger;
+	}
+
+	@Override
+	public String keyWord() {
+		return "/back";
+	}
+
+	@Override
+	public boolean check(String command) throws IllegalArgumentException {
+		return Helper.checkLength(1, command);
+	}
+
+	@Override
+	public void execute(String command) {
+		String path = dirChanger.getDir().getPath();
+		if(!path.equals("C:\\")) {
+			for (int i = path.length() - 1; i >= 0;i--)
+				if(path.charAt(i)=='\\') {
+					path = path.substring(0, i);
+					break;
+				}
+			dirChanger.setDir(new File(path));
+		}
+
+	}
+}

@@ -19,8 +19,15 @@ import ru.kpfu.itis.group403.yuskevich.fileManager.interfaces.Command;
 import ru.kpfu.itis.group403.yuskevich.fileManager.interfaces.DirChanger;
 
 public class ChangeEncoding implements Command {
+	private String[] commandWords;
+	@Override
+	public void setCommandString(String command) {
+		String[] words=command.split(" ");
+		commandWords=new String[words.length-1];
+		System.arraycopy(words, 1, commandWords, 0, words.length-1);
+	} 
 
-
+	private DirChanger dirChanger;
 
 	@Override
 	public String keyWord() {
@@ -29,23 +36,23 @@ public class ChangeEncoding implements Command {
 	}
 
 	@Override
-	public boolean check(String command, DirChanger dir){
-	    return Helper.checkLength(3, command);
+	public boolean check(){
+	    return Helper.checkLength(3, commandWords);
 	}
 
 	
 	@Override
-	public void execute(String command, DirChanger dirChanger) throws IOException {
-		String[] words = command.split(" ");
-		File file = Helper.correctPath(words[1], dirChanger.getDir());
+	public void execute() throws IOException {
+		File file = Helper.correctPath(commandWords[0], dirChanger.getDir());
 		File temp = File.createTempFile("temp", ".txt", dirChanger.getDir());
-
+        String from= commandWords[1];
+        String to= commandWords[2];
 		char[] buffer=new char[4096];
 		int len;
 		try (   InputStream in=new FileInputStream(file);
-				Reader r=new BufferedReader(new InputStreamReader(in));
+				Reader r=new BufferedReader(new InputStreamReader(in, from));
 				OutputStream out=new FileOutputStream(temp);
-				Writer w=new BufferedWriter(new OutputStreamWriter(out, words[2]));){
+				Writer w=new BufferedWriter(new OutputStreamWriter(out, to));){
 			
 			while((len=r.read(buffer)) != -1)
 				w.write(buffer, 0, len);
@@ -54,7 +61,12 @@ public class ChangeEncoding implements Command {
 			throw e;
 		}
 		file.delete();
-		temp.renameTo(Helper.correctPath(words[1], dirChanger.getDir()));
+		temp.renameTo(Helper.correctPath(commandWords[0], dirChanger.getDir()));
+	}
+
+	public ChangeEncoding(DirChanger dirChanger) {
+		super();
+		this.dirChanger = dirChanger;
 	}
 
 }

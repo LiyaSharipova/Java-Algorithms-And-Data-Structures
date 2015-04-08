@@ -34,15 +34,15 @@ public class FileManager implements DirChanger {
 		FileManager mainTool = new FileManager();
 		Scanner scan = new Scanner(System.in);
 		String cString = "command";
-		CommandFactory factory = new CommandFactory();
+		CommandFactory factory = new CommandFactory(mainTool);
 		Command command= new Start();
 		while(!(command instanceof Exit)){
 			try{
 				System.out.println("Current Directory: " + mainTool.curDir.getPath());
 				System.out.println("Type /help to display possible commands.");
 				cString = scan.nextLine();
-				command=factory.create(cString, mainTool);
-				command.execute(cString, mainTool);
+				command=factory.create(cString);
+				command.execute();
 			}
 			catch(NoSuchCommandException| IllegalArgumentException| IOException e){
 				System.err.println("Impossible to execute the command because:\n"+e.getMessage());

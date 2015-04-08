@@ -8,7 +8,18 @@ import ru.kpfu.itis.group403.yuskevich.fileManager.interfaces.Command;
 import ru.kpfu.itis.group403.yuskevich.fileManager.interfaces.DirChanger;
 
 public class Remove implements Command {
-
+	private String[] commandWords;
+	@Override
+	public void setCommandString(String command) {
+		String[] words=command.split(" ");
+		commandWords=new String[words.length-1];
+		System.arraycopy(words, 1, commandWords, 0, words.length-1);
+	} 
+	private DirChanger dirChanger;
+	public Remove(DirChanger dirChanger) {
+		super();
+		this.dirChanger = dirChanger;
+	}
 
 	@Override
 	public String keyWord() {
@@ -16,23 +27,10 @@ public class Remove implements Command {
 	}
 
 	@Override
-	public boolean check(String command, DirChanger dirChanger)
+	public boolean check()
 			throws NoSuchFileException, IllegalArgumentException {
-
-		String[] words = command.split(" ");
-		if((words.length==2)&&(Helper.correctPath(words[1], dirChanger.getDir()).exists()))
-			return true;
-		if (words.length!=2){
-			String options=command.substring(words[0].length()+words[1].length()+2);// лишние опции
-			if ((Helper.correctPath(words[1], dirChanger.getDir()).exists())){// файл есть, но слов больше 2х        		
-				throw new IllegalArgumentException("wrong options: "+ options) ;// выводит только лишние слова
-			}
-			// файла тоже нет, 
-			throw new IllegalArgumentException(" no such file: "+ words[1]+"\n" + " wrong options: "+ options);
-
-		}
-
-		throw new NoSuchFileException(" no such file: "+ words[1]);
+        return  Helper.checkLength(1, commandWords);
+	 
 	}
 	private void deleteDirectory(File dir) {
 		if (dir.isDirectory()) {
@@ -46,10 +44,10 @@ public class Remove implements Command {
 	}
 
 	@Override
-	public void execute(String command, DirChanger dirChanger) throws NoSuchFileException {
-		File file = Helper.correctPath(command.split(" ")[1], dirChanger.getDir());
+	public void execute() throws NoSuchFileException {
+		File file = Helper.correctPath(commandWords[0], dirChanger.getDir());
 		if (!file.exists()){
-        	throw new NoSuchFileException(" no such file: "+ command.split(" ")[1]);
+        	throw new NoSuchFileException(" no such file: "+ commandWords[0]);
         }
 		deleteDirectory(file);
 	}
