@@ -20,8 +20,6 @@ public class Redactor  {
 				BufferedReader r=new BufferedReader(new InputStreamReader(in));
 				OutputStream out=new FileOutputStream(to);
 				Writer w=new BufferedWriter(new OutputStreamWriter(out));){
-			System.out.println(new InputStreamReader(in).getEncoding());
-			System.out.println(new OutputStreamWriter(out).getEncoding());
 			String prLine=r.readLine();
 			String curLine;
 			while((curLine=r.readLine())!=null){

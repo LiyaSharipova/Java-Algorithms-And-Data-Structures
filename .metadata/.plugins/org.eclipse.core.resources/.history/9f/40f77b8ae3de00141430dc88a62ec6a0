@@ -1,0 +1,34 @@
+package ru.kpfu.itis.group403.yuskevich.fileManager.commands;
+
+import java.io.IOException;
+import java.nio.file.NoSuchFileException;
+
+import ru.kpfu.itis.group403.yuskevich.fileManager.classes.Helper;
+import ru.kpfu.itis.group403.yuskevich.fileManager.interfaces.Command;
+
+public class Rename implements Command{
+
+	private String[] commandWords;
+	public void setCommandString(String command) {
+		String[] words=command.split(" ");
+		commandWords=new String[words.length-1];
+		System.arraycopy(words, 1, commandWords, 0, words.length-1);
+	} 
+
+	@Override
+	public String keyWord() {
+		return "/rename";
+	}
+
+	@Override
+	public boolean check(String commandString) throws NoSuchFileException, IllegalArgumentException {
+		 return  Helper.checkLength(2, commandWords);
+	}
+
+	@Override
+	public void execute() throws IOException {
+		// TODO Auto-generated method stub
+		
+	}
+
+}

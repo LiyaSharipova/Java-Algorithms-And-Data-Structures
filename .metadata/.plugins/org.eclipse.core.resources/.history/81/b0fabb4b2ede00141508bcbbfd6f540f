@@ -1,0 +1,9 @@
+package ru.kpfu.itis.group403.yuskevich.fileManager.commands;
+
+public class Rename {
+
+	public Rename() {
+		// TODO Auto-generated constructor stub
+	}
+
+}
