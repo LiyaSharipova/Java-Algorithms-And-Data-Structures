@@ -1,5 +1,7 @@
 package ru.kpfu.itis.group403.yuskevich.fileManager.commands;
 
+import java.util.Scanner;
+
 import ru.kpfu.itis.group403.yuskevich.fileManager.classes.Helper;
 import ru.kpfu.itis.group403.yuskevich.fileManager.interfaces.Command;
 import ru.kpfu.itis.group403.yuskevich.fileManager.interfaces.DirChanger;
@@ -8,9 +10,14 @@ import ru.kpfu.itis.group403.yuskevich.fileManager.interfaces.DirChanger;
  * Created by Ian on 01.04.2015.
  */
 public class Exit implements Command{
-	private String[] commandWords;
+	public Exit(Scanner sc) {
+		super();
+		this.sc = sc;
+	}
 
-	public void setCommandString(String command) {
+	private String[] commandWords;
+	private Scanner sc;
+	public void init(String command) {
 		String[] words=command.split(" ");
 		commandWords=new String[words.length-1];
 		System.arraycopy(words, 1, commandWords, 0, words.length-1);
@@ -22,13 +29,14 @@ public class Exit implements Command{
 	}
 
 	@Override
-	public boolean check(String commandString) throws IllegalArgumentException {
-		setCommandString(commandString);
-		return  Helper.checkLength(0, commandWords);
+	public boolean check(String command) throws IllegalArgumentException {
+		String[] words=command.split(" ");
+		return  Helper.checkLength(1, words);
 	}
 
 	@Override
-	public void execute() {
-
+	public boolean  execute() {
+          sc.close();
+          return false;
 	}
 }

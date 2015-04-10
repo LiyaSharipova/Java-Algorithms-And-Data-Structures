@@ -10,7 +10,7 @@ import ru.kpfu.itis.group403.yuskevich.fileManager.interfaces.DirChanger;
 public class Remove implements Command {
 	private String[] commandWords;
 	@Override
-	public void setCommandString(String command) {
+	public void init(String command) {
 		String[] words=command.split(" ");
 		commandWords=new String[words.length-1];
 		System.arraycopy(words, 1, commandWords, 0, words.length-1);
@@ -27,10 +27,11 @@ public class Remove implements Command {
 	}
 
 	@Override
-	public boolean check()
+	public boolean check(String command)
 			throws NoSuchFileException, IllegalArgumentException {
-        return  Helper.checkLength(1, commandWords);
-	 
+		String[] words=command.split(" ");
+		return  Helper.checkLength(2, words);
+
 	}
 	private void deleteDirectory(File dir) {
 		if (dir.isDirectory()) {
@@ -44,12 +45,13 @@ public class Remove implements Command {
 	}
 
 	@Override
-	public void execute() throws NoSuchFileException {
+	public boolean  execute() throws NoSuchFileException {
 		File file = Helper.correctPath(commandWords[0], dirChanger.getDir());
 		if (!file.exists()){
-        	throw new NoSuchFileException(" no such file: "+ commandWords[0]);
-        }
+			throw new NoSuchFileException(" no such file: "+ commandWords[0]);
+		}
 		deleteDirectory(file);
+		 return true;
 	}
 
 }

@@ -1,0 +1,48 @@
+package ru.kpfu.itis.group403.yuskevich.fileManager.commands;
+
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.NoSuchFileException;
+import java.util.Scanner;
+
+import ru.kpfu.itis.group403.yuskevich.fileManager.classes.Helper;
+import ru.kpfu.itis.group403.yuskevich.fileManager.interfaces.Command;
+import ru.kpfu.itis.group403.yuskevich.fileManager.interfaces.DirChanger;
+
+public class Copy implements Command {
+	private Scanner sc;
+	private DirChanger dirChanger;
+
+	public Copy(Scanner sc, DirChanger dir) {
+		super();
+		this.sc = sc;
+		this.dirChanger = dir;
+	}
+
+	private String[] commandWords;
+	@Override
+	public void init(String command) {
+		String[] words=command.split(" ");
+		commandWords=new String[words.length-1];
+		System.arraycopy(words, 1, commandWords, 0, words.length-1);
+	}
+
+	@Override
+	public String keyWord() {
+		return "/copy";
+	}
+
+	@Override
+	 public boolean check(String command) throws NoSuchFileException, IllegalArgumentException {
+    	String[] words=command.split(" ");
+        return  Helper.checkLength(3, words);
+    }
+
+	@Override
+	public void execute() throws IOException {
+		File file = Helper.correctPath(commandWords[0], dirChanger.getDir());
+		File dir=new File(file.getPath().substring(0, file.getPath().lastIndexOf(File.separatorChar)));
+
+	}
+
+}

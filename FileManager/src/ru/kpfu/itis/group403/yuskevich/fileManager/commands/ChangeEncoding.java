@@ -21,7 +21,7 @@ import ru.kpfu.itis.group403.yuskevich.fileManager.interfaces.DirChanger;
 public class ChangeEncoding implements Command {
 	private String[] commandWords;
 	@Override
-	public void setCommandString(String command) {
+	public void init(String command) {
 		String[] words=command.split(" ");
 		commandWords=new String[words.length-1];
 		System.arraycopy(words, 1, commandWords, 0, words.length-1);
@@ -36,15 +36,17 @@ public class ChangeEncoding implements Command {
 	}
 
 	@Override
-	public boolean check(){
-	    return Helper.checkLength(3, commandWords);
+	public boolean check(String command){
+		String[] words=command.split(" ");
+	    return Helper.checkLength(4, words);
 	}
 
 	
 	@Override
-	public void execute() throws IOException {
+	public boolean  execute() throws IOException {
 		File file = Helper.correctPath(commandWords[0], dirChanger.getDir());
-		File dir=new File(file.getPath().substring(0, file.getPath().lastIndexOf(File.separatorChar)));
+		String path=file.getPath();
+		File dir=new File(file.getPath().substring(0, path.lastIndexOf(File.separatorChar)));
 		File temp = File.createTempFile("temp", ".txt", dir);
         String from= commandWords[1];
         String to= commandWords[2];
@@ -63,6 +65,7 @@ public class ChangeEncoding implements Command {
 		}
 		file.delete();
 		temp.renameTo(Helper.correctPath(commandWords[0], dirChanger.getDir()));
+		 return true;
 	}
 
 	public ChangeEncoding(DirChanger dirChanger) {

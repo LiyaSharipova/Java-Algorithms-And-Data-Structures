@@ -10,11 +10,11 @@ import ru.kpfu.itis.group403.yuskevich.fileManager.classes.NoSuchCommandExceptio
  * Created by Ian on 30.03.2015.
  */
 public interface Command {
-	void setCommandString(String command);
+	void init(String command);
     String keyWord();// возвращает ключивое слово типа "/copy"
-    boolean check() throws NoSuchFileException,IllegalArgumentException;//проверяет корректность строки
+    boolean check(String command) throws NoSuchFileException,IllegalArgumentException;//проверяет корректность строки
     //проверяет пути до файла, существует ли такой файл
 
-    void execute() throws IOException;//выполняет
+    boolean execute() throws IOException;//выполняет
 
 }

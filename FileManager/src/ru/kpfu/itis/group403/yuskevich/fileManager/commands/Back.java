@@ -10,15 +10,14 @@ import ru.kpfu.itis.group403.yuskevich.fileManager.interfaces.DirChanger;
 public class Back implements Command {
 	private DirChanger dirChanger;
 	private String[] commandWords;
-	@Override
-	public void setCommandString(String command) {
+	public void init(String command) {
 		String[] words=command.split(" ");
 		commandWords=new String[words.length-1];
 		System.arraycopy(words, 1, commandWords, 0, words.length-1);
 	} 
 	public Back(DirChanger dirChanger) {
-		super();
-		this.dirChanger = dirChanger;
+		super(); 
+		this.dirChanger =dirChanger;
 	}
 
 	@Override
@@ -27,12 +26,13 @@ public class Back implements Command {
 	}
 
 	@Override
-	public boolean check() throws IllegalArgumentException {
-		return Helper.checkLength(0, commandWords);
+	public boolean check(String command) throws IllegalArgumentException {
+		String[] words=command.split(" ");
+		return Helper.checkLength(1, words);
 	}
 
 	@Override
-	public void execute() {
+	public boolean  execute() {
 		String path = dirChanger.getDir().getPath();
 		if(!path.equals("C:\\")) {
 			for (int i = path.length() - 1; i >= 0;i--)
@@ -42,7 +42,7 @@ public class Back implements Command {
 				}
 			dirChanger.setDir(new File(path));
 		}
-
+       return true;
 	}
 
 	

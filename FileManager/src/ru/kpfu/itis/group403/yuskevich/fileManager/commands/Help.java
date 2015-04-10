@@ -10,7 +10,7 @@ import ru.kpfu.itis.group403.yuskevich.fileManager.interfaces.DirChanger;
 public class Help implements Command {
 	private String[] commandWords;
 	@Override
-	public void setCommandString(String command) {
+	public void init(String command) {
 		String[] words=command.split(" ");
 		commandWords=new String[words.length-1];
 		System.arraycopy(words, 1, commandWords, 0, words.length-1);
@@ -22,13 +22,14 @@ public class Help implements Command {
 	}
 
 	@Override
-	public boolean check()
+	public boolean check(String command)
 			throws NoSuchFileException, IllegalArgumentException {
-		return  Helper.checkLength(0, commandWords);
+		String[] words=command.split(" ");
+		return  Helper.checkLength(1, words);
 	}
 
 	@Override
-	public void execute()
+	public boolean  execute()
 			throws IOException {
 		System.out.println("/search 'folder name of path to folder' 'tag' ('-folder') "
 				+ "- search file or folder if directory");
@@ -41,6 +42,7 @@ public class Help implements Command {
 		System.out.println("/encode 'filename of path to file' 'initial encoding' 'result encoding'"
 				+ "- change encoding of the file "  );
 		System.out.println("/exit - stop file manager");
+		 return true;
 	}
 
 }

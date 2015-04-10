@@ -1,0 +1,44 @@
+package ru.kpfu.itis.group403.yuskevich.fileManager.commands;
+
+import java.io.IOException;
+import java.nio.file.NoSuchFileException;
+import java.util.Scanner;
+
+import ru.kpfu.itis.group403.yuskevich.fileManager.classes.Helper;
+import ru.kpfu.itis.group403.yuskevich.fileManager.interfaces.Command;
+import ru.kpfu.itis.group403.yuskevich.fileManager.interfaces.DirChanger;
+
+public class Copy implements Command {
+	Scanner sc;
+	DirChanger dir;
+
+	public Copy(Scanner sc, DirChanger dir) {
+		super();
+		this.sc = sc;
+		this.dir = dir;
+	}
+
+	@Override
+	public void init(String command) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public String keyWord() {
+		return "/copy";
+	}
+
+	@Override
+	 public boolean check(String command) throws NoSuchFileException, IllegalArgumentException {
+    	String[] words=command.split(" ");
+        return  Helper.checkLength(2, words);
+    }
+
+	@Override
+	public void execute() throws IOException {
+		// TODO Auto-generated method stub
+
+	}
+
+}

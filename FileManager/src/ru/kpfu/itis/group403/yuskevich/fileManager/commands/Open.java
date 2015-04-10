@@ -25,7 +25,7 @@ import ru.kpfu.itis.group403.yuskevich.fileManager.interfaces.DirChanger;
 public class Open implements Command{
 	private String[] commandWords;
 	@Override
-	public void setCommandString(String command) {
+	public void init(String command) {
 		String[] words=command.split(" ");
 		commandWords=new String[words.length-1];
 		System.arraycopy(words, 1, commandWords, 0, words.length-1);
@@ -43,10 +43,9 @@ public class Open implements Command{
   
 
     @Override
-    public boolean check() throws NoSuchFileException, IllegalArgumentException {
-        
-
-        return  Helper.checkLength(1, commandWords);
+    public boolean check(String command) throws NoSuchFileException, IllegalArgumentException {
+    	String[] words=command.split(" ");
+        return  Helper.checkLength(2, words);
         
         	
     }
@@ -63,7 +62,7 @@ public class Open implements Command{
 		}
     }
     @Override
-    public void execute() throws IOException {
+    public boolean  execute() throws IOException {
         File file = Helper.correctPath(commandWords[0], dirChanger.getDir());
         if (!file.exists()){
         	throw new NoSuchFileException(" no such file: "+ commandWords[0]);
@@ -73,6 +72,7 @@ public class Open implements Command{
         else{
         	printFail(file);
         }
+        return true;
     }
 
 
