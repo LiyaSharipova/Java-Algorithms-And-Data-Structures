@@ -3,6 +3,7 @@ package ru.kpfu.itis.group403.yuskevich.fileManager.commands;
 import java.io.File;
 
 import ru.kpfu.itis.group403.yuskevich.fileManager.classes.Helper;
+import ru.kpfu.itis.group403.yuskevich.fileManager.classes.WrongInputException;
 import ru.kpfu.itis.group403.yuskevich.fileManager.interfaces.Command;
 import ru.kpfu.itis.group403.yuskevich.fileManager.interfaces.DirChanger;
 
@@ -26,7 +27,7 @@ public class Back implements Command {
 	}
 
 	@Override
-	public boolean check(String command) throws IllegalArgumentException {
+	public boolean check(String command) throws WrongInputException {
 		String[] words=command.split(" ");
 		return Helper.checkLength(1, words);
 	}

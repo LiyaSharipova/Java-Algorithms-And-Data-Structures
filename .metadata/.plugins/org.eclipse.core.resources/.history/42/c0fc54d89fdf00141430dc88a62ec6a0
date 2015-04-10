@@ -20,8 +20,7 @@ public class CommandFactory {
         allCommands[4]= new ChangeEncoding(dirChanger);
         allCommands[5]=new Copy(dirChanger, sc);
     }
-    public Command create(String commandString) throws NoSuchFileException, NoSuchCommandException,
-    WrongInputException{
+    public Command create(String commandString) throws NoSuchFileException, NoSuchCommandException{
     	commandString=commandString.trim();
         for(Command command: allCommands){
             if(commandString.split(" ")[0].equals(command.keyWord())){

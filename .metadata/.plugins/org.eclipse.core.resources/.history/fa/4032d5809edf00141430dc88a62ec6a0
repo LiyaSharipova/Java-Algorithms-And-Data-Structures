@@ -50,13 +50,13 @@ public class FileManager implements DirChanger {
 			}
 
 
-			catch(NoSuchCommandException| WrongInputException| IOException e){
+			catch(NoSuchCommandException| IllegalArgumentException| IOException e){
 				System.err.println("Impossible to execute the command because:\n"+e.getMessage());
 				e.printStackTrace();
 
 			}
 		}
-       scan.close();
+
 	}
 }
 

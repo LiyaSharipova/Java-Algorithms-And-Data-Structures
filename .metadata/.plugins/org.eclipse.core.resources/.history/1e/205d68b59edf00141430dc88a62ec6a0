@@ -35,18 +35,15 @@ public class Helper {
 		else
 			return new File(dir.getPath()+File.separator+path);
 	}
-	public static boolean checkLength(int length, String[] commandWords) throws WrongInputException {
+	public static boolean checkLength(int length, String[] commandWords) throws IllegalArgumentException {
 		if(commandWords.length==length){
 			return true;
-		}
-		if(commandWords.length<length){
-			throw new WrongInputException("Not enought options");
 		}
 		String options="";
 		for (int i = length; i < commandWords.length; i++) {
 			options+=commandWords[i]+" ";
 		}
-		throw new WrongInputException("Extra option(s): "+ options) ;// выводит только лишние слова
+		throw new IllegalArgumentException("Extra option(s): "+ options) ;// выводит только лишние слова
 
 	}
 	public static void main(String[] args) {

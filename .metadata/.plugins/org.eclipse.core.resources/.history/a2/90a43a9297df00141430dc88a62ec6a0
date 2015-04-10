@@ -36,32 +36,27 @@ public class FileManager implements DirChanger {
 		//		Command command= new Start(); !(command instanceof Exit)
 		Command command;
 		boolean f=true;
-		Scanner scan=new Scanner(System.in);
-
 		while(f){
-			try{
-
+			try(Scanner scan = new Scanner(System.in);){			
 				System.out.println("Current Directory: " + mainTool.curDir.getPath());
 				System.out.println("Type /help to display possible commands.");
 				cString = scan.nextLine();
 				CommandFactory factory = new CommandFactory(mainTool, scan);
 				command=factory.create(cString);
 				f=command.execute();
+
 			}
-
-
-			catch(NoSuchCommandException| WrongInputException| IOException e){
+			catch(NoSuchCommandException| IllegalArgumentException| IOException e){
 				System.err.println("Impossible to execute the command because:\n"+e.getMessage());
 				e.printStackTrace();
 
 			}
+
 		}
-       scan.close();
 	}
+
+
 }
-
-
-
 
 
 

@@ -8,7 +8,6 @@ import java.nio.file.NoSuchFileException;
 import java.util.Scanner;
 
 import ru.kpfu.itis.group403.yuskevich.fileManager.classes.Helper;
-import ru.kpfu.itis.group403.yuskevich.fileManager.classes.WrongInputException;
 import ru.kpfu.itis.group403.yuskevich.fileManager.interfaces.Command;
 import ru.kpfu.itis.group403.yuskevich.fileManager.interfaces.DirChanger;
 
@@ -36,7 +35,7 @@ public class Copy implements Command {
 	}
 
 	@Override
-	public boolean check(String command) throws NoSuchFileException, WrongInputException {
+	public boolean check(String command) throws NoSuchFileException, IllegalArgumentException {
 		String[] words=command.split(" ");
 		return  Helper.checkLength(3, words);
 	}
@@ -63,10 +62,10 @@ public class Copy implements Command {
 				}
 			}
 		}
-//		copyFileName.toString()
+	
 	else 
 		System.out.println("false");
-	try(FileOutputStream in=new FileOutputStream(">.txt")){
+	try(FileOutputStream in=new FileOutputStream(copyFileName.toString())){
 
 	}
 	return true;

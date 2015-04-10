@@ -15,7 +15,6 @@ import java.io.Writer;
 import java.nio.file.NoSuchFileException;
 
 import ru.kpfu.itis.group403.yuskevich.fileManager.classes.Helper;
-import ru.kpfu.itis.group403.yuskevich.fileManager.classes.WrongInputException;
 import ru.kpfu.itis.group403.yuskevich.fileManager.interfaces.Command;
 import ru.kpfu.itis.group403.yuskevich.fileManager.interfaces.DirChanger;
 
@@ -37,7 +36,7 @@ public class ChangeEncoding implements Command {
 	}
 
 	@Override
-	public boolean check(String command) throws WrongInputException{
+	public boolean check(String command){
 		String[] words=command.split(" ");
 	    return Helper.checkLength(4, words);
 	}
