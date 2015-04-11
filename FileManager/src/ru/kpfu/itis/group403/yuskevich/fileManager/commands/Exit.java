@@ -2,10 +2,8 @@ package ru.kpfu.itis.group403.yuskevich.fileManager.commands;
 
 import java.util.Scanner;
 
-import ru.kpfu.itis.group403.yuskevich.fileManager.classes.Helper;
-import ru.kpfu.itis.group403.yuskevich.fileManager.classes.WrongInputException;
+import ru.kpfu.itis.group403.yuskevich.fileManager.classes.Tool;
 import ru.kpfu.itis.group403.yuskevich.fileManager.interfaces.Command;
-import ru.kpfu.itis.group403.yuskevich.fileManager.interfaces.DirChanger;
 
 /**
  * Created by Ian on 01.04.2015.
@@ -19,9 +17,6 @@ public class Exit implements Command{
 	private String[] commandWords;
 	private Scanner sc;
 	public void init(String command) {
-		String[] words=command.split(" ");
-		commandWords=new String[words.length-1];
-		System.arraycopy(words, 1, commandWords, 0, words.length-1);
 	} 
 
 	@Override
@@ -30,9 +25,9 @@ public class Exit implements Command{
 	}
 
 	@Override
-	public boolean check(String command) throws WrongInputException {
+	public boolean check(String command) throws IllegalArgumentException {
 		String[] words=command.split(" ");
-		return  Helper.checkLength(1, words);
+		return  Tool.checkLength(1, words);
 	}
 
 	@Override

@@ -1,22 +1,17 @@
 package ru.kpfu.itis.group403.yuskevich.fileManager.commands;
 
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
-import java.io.PrintWriter;
-import java.io.Reader;
-import java.io.Writer;
+import java.nio.file.FileSystemException;
 import java.nio.file.NoSuchFileException;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
-import ru.kpfu.itis.group403.yuskevich.fileManager.classes.Helper;
-import ru.kpfu.itis.group403.yuskevich.fileManager.classes.WrongInputException;
+import ru.kpfu.itis.group403.yuskevich.fileManager.classes.Tool;
 import ru.kpfu.itis.group403.yuskevich.fileManager.interfaces.Command;
 import ru.kpfu.itis.group403.yuskevich.fileManager.interfaces.DirChanger;
 
@@ -24,72 +19,62 @@ import ru.kpfu.itis.group403.yuskevich.fileManager.interfaces.DirChanger;
  * Created by Ian on 01.04.2015.
  */
 public class Open implements Command{
-	private String[] commandWords;
+	File file;
 	@Override
 	public void init(String command) {
-		String[] words=command.split(" ");
-		commandWords=new String[words.length-1];
-		System.arraycopy(words, 1, commandWords, 0, words.length-1);
+		String[] words = Tool.split(command);
+		file=Tool.correctPath(words[1], dirChanger.getDir());
 	} 
 	public Open(DirChanger dirChanger) {
 		super();
 		this.dirChanger = dirChanger;
 	}
-	
+
 	private DirChanger dirChanger;
-    @Override
-    public String keyWord() {
-        return "/open";
-    }
-  
+	@Override
+	public String keyWord() {
+		return "/open";
+	}
 
-    @Override
-    public boolean check(String command) throws NoSuchFileException, WrongInputException {
-    	String[] words=command.split(" ");
-        return  Helper.checkLength(2, words);
-        
-        	
-    }
-    private void printFail(File file) throws IOException{
 
-    	try (   InputStream in=new FileInputStream(file);
-    			BufferedReader r=new BufferedReader(new InputStreamReader(in)))
-    			{
+	@Override
+	public boolean check(String command) throws IllegalArgumentException {
+		String[] words = Tool.split(command);
+		return  Tool.checkLength(2, words);
+
+
+	}
+	private void printFile(File file) throws IOException{
+
+		try (   InputStream in=new FileInputStream(file);
+				BufferedReader r=new BufferedReader(new InputStreamReader(in)))
+				{
 			String len;
 			while((len=r.readLine()) != null)
 				System.out.println(len);		}
 		catch(IOException e){
 			throw e;
 		}
-    }
-    @Override
-    public boolean  execute() throws IOException {
-        File file = Helper.correctPath(commandWords[0], dirChanger.getDir());
-        if (!file.exists()){
-        	throw new NoSuchFileException(" no such file: "+ commandWords[0]);
-        }
-        if(file.isDirectory())
-            dirChanger.setDir(file);
-        else{
-        	printFail(file);
-        }
-        return true;
-    }
+	}
+	@Override
+	public boolean  execute() throws IOException {
+		String path=file.getPath();	
+		if (!file.exists()){
+			throw new NoSuchFileException(" no such file: "+ path);
+		}
+		if(file.isDirectory())
+			dirChanger.setDir(file);
+		else{
+			Pattern p = Pattern.compile("^.*+/.txt$");  
+			Matcher m = p.matcher(path);  
+			if( m.matches())  
+				printFile(file);
+			else
+				throw new FileSystemException("Wrong format. Only txt can be printed");
+		}
+		return true;
+	}
 
 
 
 }
-//String[] words = command.split(" ");
-//if((words.length==2)&&(Helper.correctPath(words[1], dirChanger.getDir()).exists()))
-//      return true;
-//if (words.length!=2){
-//	String options=command.substring(words[0].length()+words[1].length()+2);// лишние опции
-//	if ((Helper.correctPath(words[1], dirChanger.getDir()).exists())){// файл есть, но слов больше 2х        		
-//      throw new IllegalArgumentException("wrong options: "+ options) ;// выводит только лишние слова
-//	}
-//	// файла тоже нет, 
-//  throw new IllegalArgumentException("  no such file: "+ words[1]+"\n" + "  wrong options: "+ options);
-//  	
-//}
-//
-//	throw new NoSuchFileException(" no such file: "+ words[1]);

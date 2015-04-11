@@ -12,23 +12,25 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.Reader;
 import java.io.Writer;
-import java.nio.file.NoSuchFileException;
 
-import ru.kpfu.itis.group403.yuskevich.fileManager.classes.Helper;
-import ru.kpfu.itis.group403.yuskevich.fileManager.classes.WrongInputException;
+import ru.kpfu.itis.group403.yuskevich.fileManager.classes.Tool;
 import ru.kpfu.itis.group403.yuskevich.fileManager.interfaces.Command;
 import ru.kpfu.itis.group403.yuskevich.fileManager.interfaces.DirChanger;
 
 public class ChangeEncoding implements Command {
 	private String[] commandWords;
+	private DirChanger dirChanger;
+	private File file;
+	private String from, to;
 	@Override
 	public void init(String command) {
-		String[] words=command.split(" ");
-		commandWords=new String[words.length-1];
-		System.arraycopy(words, 1, commandWords, 0, words.length-1);
+		String[] words = Tool.split(command);
+		file= Tool.correctPath(words[1], dirChanger.getDir());
+		from=words[2];
+		to=words[3];
 	} 
 
-	private DirChanger dirChanger;
+	
 
 	@Override
 	public String keyWord() {
@@ -37,20 +39,17 @@ public class ChangeEncoding implements Command {
 	}
 
 	@Override
-	public boolean check(String command) throws WrongInputException{
-		String[] words=command.split(" ");
-	    return Helper.checkLength(4, words);
+	public boolean check(String command){
+		String[] words = Tool.split(command);
+	    return Tool.checkLength(4, words);
 	}
 
 	
 	@Override
 	public boolean  execute() throws IOException {
-		File file = Helper.correctPath(commandWords[0], dirChanger.getDir());
 		String path=file.getPath();
-		File dir=new File(file.getPath().substring(0, path.lastIndexOf(File.separatorChar)));
+		File dir=new File(path.substring(0, path.lastIndexOf(File.separatorChar)));
 		File temp = File.createTempFile("temp", ".txt", dir);
-        String from= commandWords[1];
-        String to= commandWords[2];
 		char[] buffer=new char[4096];
 		int len;
 		try (   InputStream in=new FileInputStream(file);
@@ -65,7 +64,7 @@ public class ChangeEncoding implements Command {
 			throw e;
 		}
 		file.delete();
-		temp.renameTo(Helper.correctPath(commandWords[0], dirChanger.getDir()));
+		temp.renameTo(Tool.correctPath(path, dirChanger.getDir()));
 		 return true;
 	}
 

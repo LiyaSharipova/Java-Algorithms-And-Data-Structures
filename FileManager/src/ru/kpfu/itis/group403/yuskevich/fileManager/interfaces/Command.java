@@ -5,15 +5,14 @@ import java.io.IOException;
 import java.nio.file.NoSuchFileException;
 
 import ru.kpfu.itis.group403.yuskevich.fileManager.classes.NoSuchCommandException;
-import ru.kpfu.itis.group403.yuskevich.fileManager.classes.WrongInputException;
 
 /**
  * Created by Ian on 30.03.2015.
  */
 public interface Command {
-	void init(String command);
+	void init(String command)throws NoSuchFileException;
     String keyWord();// возвращает ключивое слово типа "/copy"
-    boolean check(String command) throws NoSuchFileException, WrongInputException;//проверяет корректность строки
+    boolean check(String command) throws IllegalArgumentException;//проверяет корректность строки
     //проверяет пути до файла, существует ли такой файл
 
     boolean execute() throws IOException;//выполняет

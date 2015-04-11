@@ -1,0 +1,106 @@
+package ru.kpfu.itis.group403.yuskevich.fileManager.commands;
+
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.NoSuchFileException;
+import java.util.Scanner;
+
+import ru.kpfu.itis.group403.yuskevich.fileManager.classes.Tool;
+import ru.kpfu.itis.group403.yuskevich.fileManager.classes.WrongInputException;
+import ru.kpfu.itis.group403.yuskevich.fileManager.interfaces.Command;
+import ru.kpfu.itis.group403.yuskevich.fileManager.interfaces.DirChanger;
+
+public class Rename implements Command {
+	private DirChanger dirChanger;
+	private Scanner sc;
+	private File file;
+	private String newName;
+	public Rename(DirChanger dirChanger, Scanner sc) {
+		super();
+		this.sc = sc;
+		this.dirChanger = dirChanger;
+	}
+
+	@Override
+	public void init(String command) {
+		String[] words = Tool.split(command);
+		file= Tool.correctPath(words[1], dirChanger.getDir());
+		newName=words[2];
+	} 
+
+	@Override
+	public String keyWord() {
+		return "/rename";
+	}
+
+	@Override
+	public boolean check(String command) throws IllegalArgumentException {
+		String[] words = Tool.split(command);
+		return  Tool.checkLength(3, words);
+	}
+	private String rightName(String path){
+		StringBuffer newFileName= new StringBuffer(path);
+		if(path.charAt(path.lastIndexOf('.')-1)!=')'){
+			newFileName=newFileName.insert(newFileName.toString().lastIndexOf('.'),"(1)");
+		}
+		else{
+			int beg=path.lastIndexOf('(');
+			int end=path.lastIndexOf(')');
+			String ind=path.substring(beg+1, end);
+			int index=0;
+			try{
+				index=Integer.parseInt(ind);
+				index++;
+			}
+			catch(NumberFormatException e){
+				newFileName=newFileName.insert(newFileName.toString().lastIndexOf('.'),"(1)");
+				return newFileName.toString();
+			}
+			
+			if(new File(newFileName.toString()).exists()){
+				while(new File(newFileName.toString()).exists()){
+					newFileName=newFileName.replace(newFileName.toString().lastIndexOf('(')+1,
+							newFileName.toString().lastIndexOf(')') , Integer.toString(index));
+					index++;
+				}
+			}
+		}
+		return newFileName.toString();
+	}
+	@Override
+	public boolean execute() throws IOException {
+		if(!file.exists())
+			throw new NoSuchFileException(" no such file: "+ file.getPath());		
+		String path=file.getPath();
+		String fileDir=path.substring(0, path.lastIndexOf(File.separatorChar)+1);
+		String fileName=path.substring(path.lastIndexOf(File.separatorChar)+1);
+		if(fileName.equals(newName))
+			return true;
+		String newPath=fileDir+'\\'+newName;
+		File newFile=new File(newPath);
+		if(newFile.exists()){
+			boolean f=false;
+			System.out.println("The file with this name aiready exists.Type 'R'/'C' to rename (to "+rightName(newPath)+") /cancel ");
+			while(!f){
+				try{
+					String mark=sc.nextLine();
+					if(mark.equals("R")){
+						newPath=rightName(newPath);
+						f=true;
+					}
+					else if(mark.equals("C")){
+						return true;
+					}
+					else throw new IllegalArgumentException("Wrong input");
+				}
+				catch(IllegalArgumentException e){
+					System.err.println(e.getMessage());
+				}
+			}
+		}
+		file.renameTo(new File(newPath));
+
+		return true;
+	}
+
+}

@@ -1,39 +1,72 @@
 package ru.kpfu.itis.group403.yuskevich.fileManager.commands;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.NoSuchFileException;
+import java.util.Scanner;
 
+import ru.kpfu.itis.group403.yuskevich.fileManager.classes.Tool;
+import ru.kpfu.itis.group403.yuskevich.fileManager.classes.WrongInputException;
 import ru.kpfu.itis.group403.yuskevich.fileManager.interfaces.Command;
+import ru.kpfu.itis.group403.yuskevich.fileManager.interfaces.DirChanger;
 
 public class Mkdir implements Command {
+	private DirChanger dirChanger;
+    private Scanner sc;
+	String dir;
 
-	public Mkdir() {
-		// TODO Auto-generated constructor stub
+	public Mkdir(DirChanger dirChanger, Scanner sc) {
+		super();
+		this.dirChanger = dirChanger;
+		this.sc = sc;
 	}
 
+	private String[] commandWords;
 	@Override
 	public void init(String command) {
-		// TODO Auto-generated method stub
-
-	}
+		String[] words = Tool.split(command);
+		dir=words[1];
+	} 
+	
 
 	@Override
 	public String keyWord() {
-		// TODO Auto-generated method stub
-		return null;
+		return "/mkdir";
 	}
 
 	@Override
-	public boolean check(String command) throws NoSuchFileException,
+	public boolean check(String command) throws 
 			IllegalArgumentException {
-		// TODO Auto-generated method stub
-		return false;
+		String[] words = Tool.split(command);
+		return  Tool.checkLength(2, words);
 	}
 
 	@Override
 	public boolean  execute() throws IOException {
-		// TODO Auto-generated method stub
-		 return true;
+		File file=Tool.correctPath(dir, dirChanger.getDir());
+		if(file.mkdir()){
+			return true;
+		}
+		boolean f=false;
+		System.out.println("The directory with this name aiready exists.Type 'R'/'C' to replace/cancel ");
+		while(!f){
+			try{
+				String mark=sc.nextLine();
+				if(mark.equalsIgnoreCase("R")){							
+					f=true;
+					new Remove(dirChanger).deleteDirectory(file);
+					file.mkdir();
+				}
+				else if(mark.equalsIgnoreCase("C")){
+					return true;
+				}
+				else throw new IllegalArgumentException("Wrong input");
+			}
+			catch(IllegalArgumentException e){
+				System.err.println(e.getMessage());
+			}
+		}
+		return true;
 	}
 
 }

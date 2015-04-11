@@ -1,0 +1,47 @@
+package ru.kpfu.itis.group403.yuskevich.fileManager.commands;
+
+import java.io.IOException;
+import java.nio.file.NoSuchFileException;
+import java.util.Scanner;
+
+import ru.kpfu.itis.group403.yuskevich.fileManager.interfaces.Command;
+import ru.kpfu.itis.group403.yuskevich.fileManager.interfaces.DirChanger;
+
+public class Mkfile implements Command {
+	private DirChanger dirChanger;
+    private Scanner sc;
+	
+	public Mkfile(DirChanger dirChanger, Scanner sc) {
+		super();
+		this.dirChanger = dirChanger;
+		this.sc = sc;
+	}
+
+	private String[] commandWords;
+	@Override
+	public void init(String command) {
+		String[] words=command.split(" ");
+		commandWords=new String[words.length-1];
+		System.arraycopy(words, 1, commandWords, 0, words.length-1);
+	} 
+	
+
+	@Override
+	public String keyWord() {
+		// TODO Auto-generated method stub
+		return "/mkfile";
+	}
+
+	@Override
+	public boolean check(String command) throws IllegalArgumentException {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean  execute() throws IOException {
+		// TODO Auto-generated method stub
+		 return true;
+	}
+
+}

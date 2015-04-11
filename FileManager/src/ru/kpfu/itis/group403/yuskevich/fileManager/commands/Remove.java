@@ -3,18 +3,18 @@ package ru.kpfu.itis.group403.yuskevich.fileManager.commands;
 import java.io.File;
 import java.nio.file.NoSuchFileException;
 
-import ru.kpfu.itis.group403.yuskevich.fileManager.classes.Helper;
-import ru.kpfu.itis.group403.yuskevich.fileManager.classes.WrongInputException;
+import ru.kpfu.itis.group403.yuskevich.fileManager.classes.Tool;
 import ru.kpfu.itis.group403.yuskevich.fileManager.interfaces.Command;
 import ru.kpfu.itis.group403.yuskevich.fileManager.interfaces.DirChanger;
 
 public class Remove implements Command {
 	private String[] commandWords;
+	private File file;
 	@Override
 	public void init(String command) {
-		String[] words=command.split(" ");
-		commandWords=new String[words.length-1];
-		System.arraycopy(words, 1, commandWords, 0, words.length-1);
+		String[] words = Tool.split(command);
+		file= Tool.correctPath(words[1], dirChanger.getDir());
+		
 	} 
 	private DirChanger dirChanger;
 	public Remove(DirChanger dirChanger) {
@@ -28,13 +28,12 @@ public class Remove implements Command {
 	}
 
 	@Override
-	public boolean check(String command)
-			throws WrongInputException {
-		String[] words=command.split(" ");
-		return  Helper.checkLength(2, words);
+	public boolean check(String command) throws IllegalArgumentException {
+		String[] words = Tool.split(command);
+		return  Tool.checkLength(2, words);
 
 	}
-	private void deleteDirectory(File dir) {
+	public void deleteDirectory(File dir) {
 		if (dir.isDirectory()) {
 			String[] list = dir.list();
 			for (int i=0; i<list.length; i++) {
@@ -47,9 +46,8 @@ public class Remove implements Command {
 
 	@Override
 	public boolean  execute() throws NoSuchFileException {
-		File file = Helper.correctPath(commandWords[0], dirChanger.getDir());
 		if (!file.exists()){
-			throw new NoSuchFileException(" no such file: "+ commandWords[0]);
+			throw new NoSuchFileException(" no such file: "+ file.getPath());
 		}
 		deleteDirectory(file);
 		 return true;

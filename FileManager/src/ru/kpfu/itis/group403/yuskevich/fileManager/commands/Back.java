@@ -2,20 +2,15 @@ package ru.kpfu.itis.group403.yuskevich.fileManager.commands;
 
 import java.io.File;
 
-import ru.kpfu.itis.group403.yuskevich.fileManager.classes.Helper;
-import ru.kpfu.itis.group403.yuskevich.fileManager.classes.WrongInputException;
+import ru.kpfu.itis.group403.yuskevich.fileManager.classes.Tool;
 import ru.kpfu.itis.group403.yuskevich.fileManager.interfaces.Command;
 import ru.kpfu.itis.group403.yuskevich.fileManager.interfaces.DirChanger;
 
 
 public class Back implements Command {
 	private DirChanger dirChanger;
-	private String[] commandWords;
 	public void init(String command) {
-		String[] words=command.split(" ");
-		commandWords=new String[words.length-1];
-		System.arraycopy(words, 1, commandWords, 0, words.length-1);
-	} 
+    } 
 	public Back(DirChanger dirChanger) {
 		super(); 
 		this.dirChanger =dirChanger;
@@ -27,9 +22,9 @@ public class Back implements Command {
 	}
 
 	@Override
-	public boolean check(String command) throws WrongInputException {
+	public boolean check(String command) throws IllegalArgumentException {
 		String[] words=command.split(" ");
-		return Helper.checkLength(1, words);
+		return Tool.checkLength(1, words);
 	}
 
 	@Override
