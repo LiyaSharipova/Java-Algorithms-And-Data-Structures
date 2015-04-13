@@ -1,0 +1,70 @@
+package ru.kpfu.itis.group403.yuskevich.fileManager.commands;
+
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.NoSuchFileException;
+import java.util.Scanner;
+
+import ru.kpfu.itis.group403.yuskevich.fileManager.classes.Tool;
+import ru.kpfu.itis.group403.yuskevich.fileManager.interfaces.Command;
+import ru.kpfu.itis.group403.yuskevich.fileManager.interfaces.DirChanger;
+
+public class Mkdir implements Command {
+	private DirChanger dirChanger;
+    private Scanner sc;
+	String dir;
+
+	public Mkdir(DirChanger dirChanger, Scanner sc) {
+		super();
+		this.dirChanger = dirChanger;
+		this.sc = sc;
+	}
+
+	@Override
+	public void init(String command) {
+		String[] words = Tool.split(command);
+		dir=words[1];
+	} 
+	
+
+	@Override
+	public String keyWord() {
+		return "/mkdir";
+	}
+
+	@Override
+	public boolean check(String command) throws 
+			IllegalArgumentException {
+		String[] words = Tool.split(command);
+		return  Tool.checkLength(2, words);
+	}
+
+	@Override
+	public boolean  execute() throws IOException {
+		File file=Tool.correctPath(dir, dirChanger.getDir());
+		if(file.mkdir()){
+			return true;
+		}
+		boolean f=false;
+		System.out.println("The directory with this name aiready exists.Type 'R'/'C' to replace/cancel ");
+		while(!f){
+			try{
+				String mark=sc.nextLine();
+				if(mark.equalsIgnoreCase("R")){							
+					f=true;
+					new Remove(dirChanger).deleteDirectory(file);
+					file.mkdir();
+				}
+				else if(mark.equalsIgnoreCase("C")){
+					return true;
+				}
+				else throw new IllegalArgumentException("Wrong input");
+			}
+			catch(IllegalArgumentException e){
+				System.err.println(e.getMessage());
+			}
+		}
+		return true;
+	}
+
+}

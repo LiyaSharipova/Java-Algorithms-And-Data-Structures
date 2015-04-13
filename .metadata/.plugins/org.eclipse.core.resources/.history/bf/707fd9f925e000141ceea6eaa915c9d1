@@ -1,0 +1,80 @@
+package ru.kpfu.itis.group403.yuskevich.fileManager.commands;
+
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.nio.file.FileSystemException;
+import java.nio.file.NoSuchFileException;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import ru.kpfu.itis.group403.yuskevich.fileManager.classes.Tool;
+import ru.kpfu.itis.group403.yuskevich.fileManager.interfaces.Command;
+import ru.kpfu.itis.group403.yuskevich.fileManager.interfaces.DirChanger;
+
+/**
+ * Created by Ian on 01.04.2015.
+ */
+public class Open implements Command{
+	File file;
+	@Override
+	public void init(String command) {
+		String[] words = Tool.split(command);
+		file=Tool.correctPath(words[1], dirChanger.getDir());
+	} 
+	public Open(DirChanger dirChanger) {
+		super();
+		this.dirChanger = dirChanger;
+	}
+
+	private DirChanger dirChanger;
+	@Override
+	public String keyWord() {
+		return "/open";
+	}
+
+
+	@Override
+	public boolean check(String command) throws IllegalArgumentException {
+		String[] words = Tool.split(command);
+		return  Tool.checkLength(2, words);
+
+
+	}
+	private void printFile(File file) throws IOException{
+
+		try (   InputStream in=new FileInputStream(file);
+				BufferedReader r=new BufferedReader(new InputStreamReader(in)))
+				{
+			String len;
+			while((len=r.readLine()) != null)
+				System.out.println(len);		}
+		catch(IOException e){
+			throw e;
+		}
+	}
+	@Override
+	public boolean  execute() throws IOException {
+		String path=file.getPath();	
+		if (!file.exists()){
+			throw new NoSuchFileException(" no such file: "+ path);
+		}
+		if(file.isDirectory())
+			dirChanger.setDir(file);
+		else{
+			Pattern p = Pattern.compile("^.*+/.txt$");  
+			Matcher m = p.matcher(path);  
+			if( m.matches())  
+				printFile(file);
+			else
+				throw new FileSystemException("Wrong format. Only txt can be printed");
+		}
+		return true;
+	}
+
+
+
+}
