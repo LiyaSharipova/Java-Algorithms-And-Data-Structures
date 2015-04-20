@@ -1,6 +1,7 @@
 package ru.kpfu.itis.group403.sharipova.rbt;
 
 
+
 public class RBT<K extends Comparable<K>, V> {
 	public static final boolean RED=true;
 	public static final boolean BLACK=false;
@@ -63,5 +64,15 @@ public class RBT<K extends Comparable<K>, V> {
 		if (isRed(h.left)&& isRed(h.right)) flipColors(h);
 		return h;
 		
+	}
+	public V get(K key) {
+		return get(root, key);
+	}
+	private V get (Node x, K key) {
+		if (x==null) return null;
+		int cmp=key.compareTo(x.key);
+		if (cmp<0) return get(x.left, key);
+		else if(cmp>0) return get(x.right, key);
+		else return x.val;
 	}
 }
