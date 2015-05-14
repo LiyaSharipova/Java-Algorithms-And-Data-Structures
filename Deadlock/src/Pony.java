@@ -1,4 +1,3 @@
-package ru.kpfu.itis.group403.sharipova.deadLock;
 import java.util.Random;
 
 
@@ -13,27 +12,16 @@ public class Pony implements Runnable{
 		while(path>0){
 			path-= random.nextInt(5);
 			System.out.println(name+ ". я сходил");
-			String s1="1";
-			String s2="2";
-
-			synchronized (s1) {
-				Thread.yield();
-				synchronized (s2) {
+			synchronized (" the 1st pony ") {
+				synchronized (" the 2nd pony ") {
 
 				}
 			}
-			synchronized (s2) {
-				try {
-					Thread.sleep(100);
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-				synchronized (s1) {
+			synchronized (" the 2nd pony ") {
+				synchronized (" the 1st pony ") {
 
 				}
 			}
-			System.out.println("я сходил после синхронайз"+ name);
 			//?????????????
 //			Thread.yield();
 //			try {
