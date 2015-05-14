@@ -1,5 +1,6 @@
 package ru.kpfu.itis.group403.sharipova.graph;
 
+
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.FileInputStream;
@@ -29,12 +30,12 @@ public class GraphFactory<V> {
 				
 		}
 		catch(IOException e){
-			e.printStackTrace();;
+			e.printStackTrace();
 		}
 		return gr;
 	}
 	public static void main(String[] args) {
-		createGraph("friendship.txt").print();
+		createGraph("friendship.txt").toString();
 		
 	}
 

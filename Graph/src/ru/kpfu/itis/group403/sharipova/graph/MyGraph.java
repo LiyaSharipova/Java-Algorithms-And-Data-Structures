@@ -158,11 +158,12 @@ public class MyGraph<V> implements Graph<V> {
 	public Iterator<V> getVertex() {
 		return vertexes.iterator();
 	}
-	public void print() {
+	public String toString() {
 		Set<Entry<Edge<V>, Boolean>> entrySet= map.entrySet();
 		for (Entry<Edge<V>, Boolean> entry : entrySet ) {
 			System.out.println(entry.getKey().getBegin()+ " "+entry.getKey().getEnd()+ " "+  entry.getValue());
 		}
+		return null;
 
 	}
 
@@ -172,14 +173,14 @@ public class MyGraph<V> implements Graph<V> {
 		gr.add(1, 2);
 		gr.add(3,4);
 		gr.add(1,3);
-		gr.print();
+		gr.toString();
 		System.out.println("AdjList");
 		for (Integer v : gr.getAdjList(1)) {
 			System.out.println(v);
 		}
 		System.out.println("delete 1,2");
 		gr.delete(1,2);
-		gr.print();
+		gr.toString();
 	}
 
 }
